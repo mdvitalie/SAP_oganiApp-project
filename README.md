@@ -4,6 +4,14 @@
 
 ---
 
-## Branch name: main
+## Branch name: Insecure
+
+1. Downlod and install XAMPP
+2. Run the XAPP application, click on start button for Apache and MySQL
+3. On the MySQL click on the Admin button to open the browser with phpNyAdmin
+4. CLick on new to create a database give it a name (oganiapp_insecure) and clcick create
+5. Click SQL yab on the tor bar and copy and paste the code for the file script.sql (open script.sql on Notepad) and click the button Go
+6. Put the application folder in to the C: drive XAMPP -> htdocs folder
+7. In the browser type http://localhost/oganiApp_insecure/sign-in.php
 
 ---
