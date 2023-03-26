@@ -1,0 +1,28 @@
+
+]Web:DoctypePresenceCheck[":Insert a <!DOCTYPE> declaration to before this <html> tag.(ñ§½W
+JWeb:AvoidCommentedOutCodeCheckš"Remove this commented out code.(Ä¾Î¯
+V	php:S1131†"@Remove the useless trailing whitespaces at the end of this line.(ĞçÁ¬
+_php:S103"KSplit this 126 characters long line (which is greater than 120 authorized).(™¢‰ƒ
+_php:S103"KSplit this 136 characters long line (which is greater than 120 authorized).(Òä¢Á
+_php:S103."KSplit this 125 characters long line (which is greater than 120 authorized).(‹³àù
+_php:S103X"KSplit this 125 characters long line (which is greater than 120 authorized).(‹³àù
+_php:S103j"KSplit this 123 characters long line (which is greater than 120 authorized).(µÎ‚¾
+`php:S103"KSplit this 170 characters long line (which is greater than 120 authorized).(¶æîğ
+`php:S103“"KSplit this 149 characters long line (which is greater than 120 authorized).(’Ú•ƒ
+`php:S103š"KSplit this 152 characters long line (which is greater than 120 authorized).(Ä¾Î¯
+ephp:S103›"KSplit this 146 characters long line (which is greater than 120 authorized).(êÍáßşÿÿÿÿ
+ephp:S103¢"KSplit this 178 characters long line (which is greater than 120 authorized).(”»ïÆúÿÿÿÿ
+_php:S103©"KSplit this 194 characters long line (which is greater than 120 authorized).(È„¶ 
+ephp:S103²"KSplit this 125 characters long line (which is greater than 120 authorized).(ë œùÿÿÿÿ
+`php:S103Æ"KSplit this 134 characters long line (which is greater than 120 authorized).(ëÈ¦û
+`php:S103È"KSplit this 137 characters long line (which is greater than 120 authorized).(ÚÓÈ
+ephp:S100N"QRename function "test_input" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(Îî
+_	php:S1779"RReplace all non line feed end of line characters in this file "sign-up.php" by LF.
+;	php:S20031"&Replace "include" with "include_once".(Ğã™®
+2php:S125"Remove this commented out code.(¼»¼_
+3php:S125"Remove this commented out code.(ÌÙ®ä
+8php:S125"Remove this commented out code.(Ïá¿¹ûÿÿÿÿ
+3php:S125"Remove this commented out code.(¡Õ±š
+8php:S125#"Remove this commented out code.(éØ»Úûÿÿÿÿ
+3php:S125%"Remove this commented out code.(²¦®ô
+a	php:S48331"LReplace "include" with namespace import mechanism through the "use" keyword.(Ğã™®
