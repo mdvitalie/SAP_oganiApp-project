@@ -1,37 +1,51 @@
+<!-- https://www.phphelp.com/t/php-registration-page-check-for-email-in-table/26320 -->
+<!-- www.w3schools.com -->
+<!-- https://www.php.net/ -->
+<!-- ############################################################################################################# -->
+
 <?php
 include("include/config.php");
 
-if (isset($_POST['email'])) {
-  $email = $_POST['email'];
-  $password = $_POST['password'];
-  //encrypting password SHA1
-  $encrypted_password = hash('SHA1', $password);
+if (isset($_POST['email'], $_POST['password'])) {
+  // Sanitizing user input to prevent injection attacks
+  $email = test_input($_POST['email']);
+  $password = test_input($_POST['password']);
 
-  $sql = "select * from users where email = '$email' AND password='$encrypted_password'";
+  //By using prepared statements it prevents SQL injection 
+  $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
+  $stmt->bind_param("s", $email);
+  $stmt->execute();
+  $result = $stmt->get_result();
 
-  $result = mysqli_query($conn, $sql) or die("Data Retreival Error");
+  if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $stored_password = $row['password'];
 
-  if (mysqli_num_rows($result) > 0) {
-
-    $row = mysqli_fetch_assoc($result);
-    $_SESSION['user_id'] = $row['id'];
-    $_SESSION['email'] = $row['email'];
-    $_SESSION['firstname'] = $row['firstname'];
-    $_SESSION['lastname'] = $row['lastname'];
-    echo "<p style='color:green; font-weight: bold; padding-top: 5%; text-align:center;'>You have Login Successfully</p>";
-
-    header("Location: index.php");
-
-  } else {
-    echo "<p style='color:red; font-weight: bold; padding-top: 5%; text-align:center;'>Invalid email or password</p>";
-
+    // password verification by using a strong hashing algorithm like bcrypt
+    if (password_verify($password, $stored_password)) {
+      $_SESSION['user_id'] = $row['id'];
+      $_SESSION['email'] = $row['email'];
+      $_SESSION['firstname'] = $row['firstname'];
+      $_SESSION['lastname'] = $row['lastname'];
+      echo "<p style='color:green; font-weight: bold; padding-top: 5%; text-align:center;'>You have Sing In Successfully</p>";
+      header("Location: index.php");
+      exit();
+    }
   }
+  echo "<p style='color:red; font-weight: bold; padding-top: 5%; text-align:center;'>Invalid email or password</p>";
+
 
 }
 
+function test_input($data) //https://www.w3schools.com/php/php_form_validation.asp
+{
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+  return $data;
+}
+
 ?>
-
-
 
 <!-- ############################################################################################################# -->
 
@@ -56,6 +70,7 @@ if (isset($_POST['email'])) {
         <link href="assets/css/bootstrap.min.css" rel="stylesheet">
         <link href="assets/css/bootstrap-icons.css" rel="stylesheet">
 
+        <!-- <link rel="stylesheet" href="assets/css/slick.css"/> -->
         <link rel="stylesheet" href="assets/css/main.css"/>
 
         <link href="assets/css/tooplate-little-fashion.css" rel="stylesheet">
@@ -86,13 +101,16 @@ if (isset($_POST['email'])) {
                                     <form role="form" method="post">
 
                                         <div class="form-floating mb-4 p-0">
-                                            <input type="email" name="email"  class="form-control" placeholder="Email address" >
+                                            <input type="email" name="email" id="email" pattern="[^ @]*@[^ @]*" class="form-control" placeholder="Email address" required>
 
                                             <label for="email">Email address</label>
                                         </div>
 
                                         <div class="form-floating p-0">
-                                            <input type="password" name="password"  class="form-control" placeholder="Password">
+                                            <input type="password" name="password" id="password" class="form-control" placeholder="Password"
+                                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                            title="The password must contain at least one  number and one uppercase and lowercase letter, and at least 8 or more characters"
+                                            required>
 
                                             <label for="password">Password</label>
                                         </div>
@@ -101,7 +119,7 @@ if (isset($_POST['email'])) {
                                             Sign in
                                         </button>
 
-                                        <p class="text-center">Don’t have an account? <a href="sign-up.php">Sign Up</a></p>
+                                        <p class="text-center">Don’t have an account? <a href="sign-up.php">Sing Up</a></p>
 
                                     </form>
                                 </div>

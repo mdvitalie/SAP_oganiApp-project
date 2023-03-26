@@ -1,40 +1,67 @@
 
 <!-- https://www.phphelp.com/t/php-registration-page-check-for-email-in-table/26320 -->
 <!-- www.w3schools.com -->
+<!-- https://www.php.net/ -->
+
 <?php
 include("include/config.php");
 
 if (isset($_POST['email'])) {
-  $email = $_POST["email"];
-  $firstname = $_POST["firstname"];
-  $lastname = $_POST["lastname"];
-  $password = $_POST["password"];
+  // Sanitizing user input to prevent injection attacks
+  $email = test_input($_POST["email"]);
+  $firstname = test_input($_POST["firstname"]);
+  $lastname = test_input($_POST["lastname"]);
+  $password = test_input($_POST["password"]);
   $confirm_password = $_POST["confirm_password"];
 
-  // Check if user already exists
-  $sql = "SELECT * FROM users WHERE email='$email'";
-  $result = mysqli_query($conn, $sql);
+  // Check if user exists in the database
+  $stmt = $conn->prepare("SELECT * FROM users WHERE email=?");
+  $stmt->bind_param("s", $email);
+  $stmt->execute();
+  $result = $stmt->get_result();
 
-  if (mysqli_num_rows($result) > 0) {
-    // User already exists
+  // Check if user exists in the database
+  if ($result->num_rows > 0) {
     echo "<p style='color:red;font-weight: bold; padding-top: 5%; text-align:center;'>User already exists with this email  address '$email'</p>";
   } else {
     if ($password == $confirm_password) {
-      //encrypting password SHA1
-      $encrypted_password = hash('SHA1', $password);
-      $sql = "INSERT INTO users (email, firstname, lastname, password) VALUES ('$email', '$firstname', '$lastname', '$encrypted_password')";
-      mysqli_query($conn, $sql) or die("Data is Not Saved!");
+      //encrypting password using bcrypt
+      $encrypted_password = password_hash($password, PASSWORD_BCRYPT);
+      //A03:2021 Preparing a secure SQL statement to prevent injection attacks
+      $stmt = $conn->prepare("INSERT INTO users (email, firstname, lastname, password) VALUES (?, ?, ?, ?)");
+      $stmt->bind_param("ssss", $email, $firstname, $lastname, $encrypted_password);
+      $stmt->execute();
 
-      echo "<p style='color:green; font-weight: bold; padding-top: 5%; text-align:center;'>User Account Created Successfully</p>";
-      //After registration the page will be redirected to the sign-in.php page
-      header("Refresh:5; url=sign-in.php");
+      if ($stmt->affected_rows > 0) {
+        // Displaying success message if user account created successfully
+        echo "<p style='color:green; font-weight: bold; padding-top: 5%; text-align:center;'>User Account Created Successfully</p>";
+        //After registration the page will be redirected to the sign-in.php page
+        header("Refresh:5; url=sign-in.php");
+      } else {
+        echo "<p style='color:red; text-align:center;'>Data Not Saved!</p>";
+      }
 
     } else {
+      // Displaying error message if password confirmation fails
       echo "<p style='color:red; font-weight: bold; padding-top: 5%; text-align:center;'>Please Re-Confirm Your Password</p>";
     }
   }
 }
+
+function test_input($data) //https://www.w3schools.com/php/php_form_validation.asp
+{
+  // Sanitize user input to prevent injection attacks
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
+  return $data;
+}
+
+
+
+
 ?>
+
 
 <!-- #################################################################################################################### -->
 
@@ -59,6 +86,7 @@ if (isset($_POST['email'])) {
         <link href="assets/css/bootstrap.min.css" rel="stylesheet">
         <link href="assets/css/bootstrap-icons.css" rel="stylesheet">
 
+        <!-- <link rel="stylesheet" href="assets/css/slick.css"/> -->
         <link rel="stylesheet" href="assets/css/main.css"/>
 
         <link href="assets/css/tooplate-little-fashion.css" rel="stylesheet">
@@ -89,34 +117,41 @@ if (isset($_POST['email'])) {
                                     <form role="form" method="post">
 
                                         <div class="form-floating">
-                                            <input type="email" name="email"   class="form-control" placeholder="Email address">
+                                            <input type="email" name="email" id="email"  class="form-control" placeholder="Email address"
+                                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                            required>
 
                                             <label for="email">Email address</label>
                                         </div>
                     
                                         <div class="form-floating my-4">
-                                            <input type="text" name="firstname"  class="form-control" placeholder="Firstname" >
+                                            <input type="text" name="firstname" id="firstname" class="form-control" placeholder="Firstname" required>
 
                                             <label for="firstname">Firstname</label>
                                             
                                         </div>
                     
                                         <div class="form-floating my-4">                                      
-                                            <input type="text" name="lastname" id="lastname" class="form-control" placeholder="Lastname" >
+                                            <input type="text" name="lastname" id="lastname" class="form-control" placeholder="Lastname" required>
 
                                             <label for="surname">Lastname</label>
                                             
                                         </div>
 
                                         <div class="form-floating my-4">
-                                            <input type="password" name="password" id="password"  class="form-control" placeholder="Password">
+                                            <input type="password" name="password" id="password"  class="form-control" placeholder="Password"
+                                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                          title="The password must contain at least one  number and one uppercase and lowercase letter, and at least 8 or more characters" required>
 
                                             <label for="password">Password</label>
                                             
                                         </div>
 
                                         <div class="form-floating">
-                                            <input type="password" name="confirm_password"  class="form-control" placeholder="Password">
+                                            <input type="password" name="confirm_password" id="confirm_password"  class="form-control" placeholder="Password"
+                                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                          title="The password must contain at least one  number and one uppercase and lowercase letter, and at least 8 or more characters"
+                                            required>
 
                                             <label for="confirm_password">Confirm Password</label>
                                         </div>
