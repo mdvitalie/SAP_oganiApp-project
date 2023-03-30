@@ -4,57 +4,57 @@
 <!-- https://www.php.net/ -->
 
 <?php
-include("include/config.php");
+require "include/config.php";
 
 if (isset($_POST['email'])) {
-  // Sanitizing user input to prevent injection attacks
-  $email = test_input($_POST["email"]);
-  $firstname = test_input($_POST["firstname"]);
-  $lastname = test_input($_POST["lastname"]);
-  $password = test_input($_POST["password"]);
-  $confirm_password = $_POST["confirm_password"];
+    // Sanitizing user input to prevent injection attacks
+    $email = test_input($_POST["email"]);
+    $firstname = test_input($_POST["firstname"]);
+    $lastname = test_input($_POST["lastname"]);
+    $password = test_input($_POST["password"]);
+    $confirm_password = $_POST["confirm_password"];
 
-  // Check if user exists in the database
-  $stmt = $conn->prepare("SELECT * FROM users WHERE email=?");
-  $stmt->bind_param("s", $email);
-  $stmt->execute();
-  $result = $stmt->get_result();
+    // Check if user exists in the database
+    $stmt = $conn->prepare("SELECT * FROM users WHERE email=?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-  // Check if user exists in the database
-  if ($result->num_rows > 0) {
-    echo "<p style='color:red;font-weight: bold; padding-top: 5%; text-align:center;'>User already exists with this email  address '$email'</p>";
-  } else {
-    if ($password == $confirm_password) {
-      //encrypting password using bcrypt
-      $encrypted_password = password_hash($password, PASSWORD_BCRYPT);
-      //A03:2021 Preparing a secure SQL statement to prevent injection attacks
-      $stmt = $conn->prepare("INSERT INTO users (email, firstname, lastname, password) VALUES (?, ?, ?, ?)");
-      $stmt->bind_param("ssss", $email, $firstname, $lastname, $encrypted_password);
-      $stmt->execute();
-
-      if ($stmt->affected_rows > 0) {
-        // Displaying success message if user account created successfully
-        echo "<p style='color:green; font-weight: bold; padding-top: 5%; text-align:center;'>User Account Created Successfully</p>";
-        //After registration the page will be redirected to the sign-in.php page
-        header("Refresh:5; url=sign-in.php");
-      } else {
-        echo "<p style='color:red; text-align:center;'>Data Not Saved!</p>";
-      }
-
+    // Check if user exists in the database
+    if ($result->num_rows > 0) {
+        echo "<p style='color:red;font-weight: bold; padding-top: 5%; text-align:center;'>User already exists with this email  address '$email'</p>";
     } else {
-      // Displaying error message if password confirmation fails
-      echo "<p style='color:red; font-weight: bold; padding-top: 5%; text-align:center;'>Please Re-Confirm Your Password</p>";
+        if ($password == $confirm_password) {
+            //encrypting password using bcrypt
+            $encrypted_password = password_hash($password, PASSWORD_BCRYPT);
+            //A03:2021 Preparing a secure SQL statement to prevent injection attacks
+            $stmt = $conn->prepare("INSERT INTO users (email, firstname, lastname, password) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("ssss", $email, $firstname, $lastname, $encrypted_password);
+            $stmt->execute();
+
+            if ($stmt->affected_rows > 0) {
+                // Displaying success message if user account created successfully
+                echo "<p style='color:green; font-weight: bold; padding-top: 5%; text-align:center;'>User Account Created Successfully</p>";
+                //After registration the page will be redirected to the sign-in.php page
+                header("Refresh:5; url=sign-in.php");
+            } else {
+                echo "<p style='color:red; text-align:center;'>Data Not Saved!</p>";
+            }
+
+        } else {
+            // Displaying error message if password confirmation fails
+            echo "<p style='color:red; font-weight: bold; padding-top: 5%; text-align:center;'>Please Re-Confirm Your Password</p>";
+        }
     }
-  }
 }
 
 function test_input($data) //https://www.w3schools.com/php/php_form_validation.asp
 {
-  // Sanitize user input to prevent injection attacks
-  $data = trim($data);
-  $data = stripslashes($data);
-  $data = htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
-  return $data;
+    // Sanitize user input to prevent injection attacks
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
+    return $data;
 }
 
 ?>
@@ -83,7 +83,6 @@ function test_input($data) //https://www.w3schools.com/php/php_form_validation.a
         <link href="assets/css/bootstrap.min.css" rel="stylesheet">
         <link href="assets/css/bootstrap-icons.css" rel="stylesheet">
 
-        <!-- <link rel="stylesheet" href="assets/css/slick.css"/> -->
         <link rel="stylesheet" href="assets/css/main.css"/>
 
         <link href="assets/css/tooplate-little-fashion.css" rel="stylesheet">

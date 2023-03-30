@@ -1,10 +1,13 @@
 <?php
-include("include/config.php");
+require "include/config.php";
 
 if (isset($_SESSION['user_id']) == false) {
 
-  header("Location: sign-in.php");
+    header("Location: sign-in.php");
 }
+
+//Time out session
+require 'timeout.php';
 
 ?>
 
@@ -70,17 +73,7 @@ if (isset($_SESSION['user_id']) == false) {
         <nav class="humberger__menu__nav mobile-menu">
             <ul>
                 <li class="active"><a href="./index.php">Home</a></li>
-                <li><a href="./shop-grid.php">Shop</a></li>
-                <!-- <li><a href="#">Pages</a>
-                    <ul class="header__menu__dropdown">
-                        <li><a href="./shop-details.php">Shop Details</a></li>
-                        <li><a href="./shoping-cart.php">Shoping Cart</a></li>
-                        <li><a href="./checkout.php">Check Out</a></li>
-                        <li><a href="./blog-details.php">Blog Details</a></li>
-                    </ul>
-                </li>
-                <li><a href="./blog.php">Blog</a></li> -->
-                <!-- <li><a href="./contact.php">Contact</a></li> -->
+                <li><a href="./shop-grid.php">Shop</a></li>               
             </ul>
         </nav>
         <div id="mobile-menu-wrap"></div>
@@ -149,17 +142,7 @@ if (isset($_SESSION['user_id']) == false) {
                     <nav class="header__menu">
                         <ul>
                             <li><a href="./index.php">Home</a></li>
-                            <li class="active"><a href="./shop-grid.php">Shop</a></li>
-                            <!-- <li><a href="#">Pages</a>
-                                <ul class="header__menu__dropdown">
-                                    <li><a href="./shop-details.php">Shop Details</a></li>
-                                    <li><a href="./shoping-cart.php">Shoping Cart</a></li>
-                                    <li><a href="./checkout.php">Check Out</a></li>
-                                    <li><a href="./blog-details.php">Blog Details</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="./blog.php">Blog</a></li> -->
-                            <!-- <li><a href="./contact.php">Contact</a></li> -->
+                            <li class="active"><a href="./shop-grid.php">Shop</a></li>                           
                         </ul>
                     </nav>
                 </div>
@@ -206,17 +189,7 @@ if (isset($_SESSION['user_id']) == false) {
                     </div>
                 </div>
                 <div class="col-lg-9">
-                    <div class="hero__search">
-                        <!-- <div class="hero__search__form">
-                            <form action="#">
-                                <div class="hero__search__categories">
-                                    All Categories
-                                    <span class="arrow_carrot-down"></span>
-                                </div>
-                                <input type="text" placeholder="What do yo u need?">
-                                <button type="submit" class="site-btn">SEARCH</button>
-                            </form>
-                        </div> -->
+                    <div class="hero__search">                        
                         <div class="hero__search__phone">
                             <div class="hero__search__phone__icon">
                                 <i class="fa fa-phone"></i>

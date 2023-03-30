@@ -67,8 +67,6 @@ function test_input($data) //https://www.w3schools.com/php/php_form_validation.a
 
         <link href="assets/css/bootstrap.min.css" rel="stylesheet">
         <link href="assets/css/bootstrap-icons.css" rel="stylesheet">
-
-        <!-- <link rel="stylesheet" href="assets/css/slick.css"/> -->
         <link rel="stylesheet" href="assets/css/main.css"/>
 
         <link href="assets/css/tooplate-little-fashion.css" rel="stylesheet">
