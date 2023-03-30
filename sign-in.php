@@ -4,45 +4,43 @@
 <!-- ############################################################################################################# -->
 
 <?php
-include("include/config.php");
+require "include/config.php";
 
 if (isset($_POST['email'], $_POST['password'])) {
-  // Sanitizing user input to prevent injection attacks
-  $email = test_input($_POST['email']);
-  $password = test_input($_POST['password']);
+    // Sanitizing user input to prevent injection attacks
+    $email = test_input($_POST['email']);
+    $password = test_input($_POST['password']);
 
-  //By using prepared statements it prevents SQL injection 
-  $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
-  $stmt->bind_param("s", $email);
-  $stmt->execute();
-  $result = $stmt->get_result();
+    //By using prepared statements it prevents SQL injection 
+    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-  if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    $stored_password = $row['password'];
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $stored_password = $row['password'];
 
-    // password verification by using a strong hashing algorithm like bcrypt
-    if (password_verify($password, $stored_password)) {
-      $_SESSION['user_id'] = $row['id'];
-      $_SESSION['email'] = $row['email'];
-      $_SESSION['firstname'] = $row['firstname'];
-      $_SESSION['lastname'] = $row['lastname'];
-      echo "<p style='color:green; font-weight: bold; padding-top: 5%; text-align:center;'>You have Sing In Successfully</p>";
-      header("Location: index.php");
-      exit();
+        // password verification by using a strong hashing algorithm like bcrypt
+        if (password_verify($password, $stored_password)) {
+            $_SESSION['user_id'] = $row['id'];
+            $_SESSION['email'] = $row['email'];
+            $_SESSION['firstname'] = $row['firstname'];
+            $_SESSION['lastname'] = $row['lastname'];
+            echo "<p style='color:green; font-weight: bold; padding-top: 5%; text-align:center;'>You have Sing In Successfully</p>";
+            header("Location: index.php");
+            exit();
+        }
     }
-  }
-  echo "<p style='color:red; font-weight: bold; padding-top: 5%; text-align:center;'>Invalid email or password</p>";
-
-
+    echo "<p style='color:red; font-weight: bold; padding-top: 5%; text-align:center;'>Invalid email or password</p>";
 }
 
 function test_input($data) //https://www.w3schools.com/php/php_form_validation.asp
 {
-  $data = trim($data);
-  $data = stripslashes($data);
-  $data = htmlspecialchars($data, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-  return $data;
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    return $data;
 }
 
 ?>

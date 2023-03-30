@@ -57,9 +57,6 @@ function test_input($data) //https://www.w3schools.com/php/php_form_validation.a
   return $data;
 }
 
-
-
-
 ?>
 
 
