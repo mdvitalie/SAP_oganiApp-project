@@ -1,31 +1,31 @@
 <?php
-include("include/config.php");
+require "include/config.php";
 
 if (isset($_POST['email'])) {
-  $email = $_POST['email'];
-  $password = $_POST['password'];
-  //encrypting password SHA1
-  $encrypted_password = hash('SHA1', $password);
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    //encrypting password SHA1
+    $encrypted_password = hash('SHA1', $password);
 
-  $sql = "select * from users where email = '$email' AND password='$encrypted_password'";
+    $sql = "select * from users where email = '$email' AND password='$encrypted_password'";
 
-  $result = mysqli_query($conn, $sql) or die("Data Retreival Error");
+    $result = mysqli_query($conn, $sql) or die("Data Retreival Error");
 
-  if (mysqli_num_rows($result) > 0) {
+    if (mysqli_num_rows($result) > 0) {
 
-    $row = mysqli_fetch_assoc($result);
-    $_SESSION['user_id'] = $row['id'];
-    $_SESSION['email'] = $row['email'];
-    $_SESSION['firstname'] = $row['firstname'];
-    $_SESSION['lastname'] = $row['lastname'];
-    echo "<p style='color:green; font-weight: bold; padding-top: 5%; text-align:center;'>You have Login Successfully</p>";
+        $row = mysqli_fetch_assoc($result);
+        $_SESSION['user_id'] = $row['id'];
+        $_SESSION['email'] = $row['email'];
+        $_SESSION['firstname'] = $row['firstname'];
+        $_SESSION['lastname'] = $row['lastname'];
+        echo "<p style='color:green; font-weight: bold; padding-top: 5%; text-align:center;'>You have Login Successfully</p>";
 
-    header("Location: index.php");
+        header("Location: index.php");
 
-  } else {
-    echo "<p style='color:red; font-weight: bold; padding-top: 5%; text-align:center;'>Invalid email or password</p>";
+    } else {
+        echo "<p style='color:red; font-weight: bold; padding-top: 5%; text-align:center;'>Invalid email or password</p>";
 
-  }
+    }
 
 }
 

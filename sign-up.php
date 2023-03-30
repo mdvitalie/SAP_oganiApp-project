@@ -2,37 +2,37 @@
 <!-- https://www.phphelp.com/t/php-registration-page-check-for-email-in-table/26320 -->
 <!-- www.w3schools.com -->
 <?php
-include("include/config.php");
+require "include/config.php";
 
 if (isset($_POST['email'])) {
-  $email = $_POST["email"];
-  $firstname = $_POST["firstname"];
-  $lastname = $_POST["lastname"];
-  $password = $_POST["password"];
-  $confirm_password = $_POST["confirm_password"];
+    $email = $_POST["email"];
+    $firstname = $_POST["firstname"];
+    $lastname = $_POST["lastname"];
+    $password = $_POST["password"];
+    $confirm_password = $_POST["confirm_password"];
 
-  // Check if user already exists
-  $sql = "SELECT * FROM users WHERE email='$email'";
-  $result = mysqli_query($conn, $sql);
+    // Check if user already exists
+    $sql = "SELECT * FROM users WHERE email='$email'";
+    $result = mysqli_query($conn, $sql);
 
-  if (mysqli_num_rows($result) > 0) {
-    // User already exists
-    echo "<p style='color:red;font-weight: bold; padding-top: 5%; text-align:center;'>User already exists with this email  address '$email'</p>";
-  } else {
-    if ($password == $confirm_password) {
-      //encrypting password SHA1
-      $encrypted_password = hash('SHA1', $password);
-      $sql = "INSERT INTO users (email, firstname, lastname, password) VALUES ('$email', '$firstname', '$lastname', '$encrypted_password')";
-      mysqli_query($conn, $sql) or die("Data is Not Saved!");
-
-      echo "<p style='color:green; font-weight: bold; padding-top: 5%; text-align:center;'>User Account Created Successfully</p>";
-      //After registration the page will be redirected to the sign-in.php page
-      header("Refresh:5; url=sign-in.php");
-
+    if (mysqli_num_rows($result) > 0) {
+        // User already exists
+        echo "<p style='color:red;font-weight: bold; padding-top: 5%; text-align:center;'>User already exists with this email  address '$email'</p>";
     } else {
-      echo "<p style='color:red; font-weight: bold; padding-top: 5%; text-align:center;'>Please Re-Confirm Your Password</p>";
+        if ($password == $confirm_password) {
+            //encrypting password SHA1
+            $encrypted_password = hash('SHA1', $password);
+            $sql = "INSERT INTO users (email, firstname, lastname, password) VALUES ('$email', '$firstname', '$lastname', '$encrypted_password')";
+            mysqli_query($conn, $sql) or die("Data is Not Saved!");
+
+            echo "<p style='color:green; font-weight: bold; padding-top: 5%; text-align:center;'>User Account Created Successfully</p>";
+            //After registration the page will be redirected to the sign-in.php page
+            header("Refresh:5; url=sign-in.php");
+
+        } else {
+            echo "<p style='color:red; font-weight: bold; padding-top: 5%; text-align:center;'>Please Re-Confirm Your Password</p>";
+        }
     }
-  }
 }
 ?>
 
@@ -47,7 +47,7 @@ if (isset($_POST['email'])) {
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>Ogani App - Sign Up Page</title>
+        <title>OganiApp - Sign-Up Page</title>
 
        
         <link rel="preconnect" href="https://fonts.googleapis.com">

@@ -1,9 +1,9 @@
 <?php
-include("include/config.php");
+require "include/config.php";
 
 if (isset($_SESSION['user_id']) == false) {
 
-  header("Location: sign-in.php");
+    header("Location: sign-in.php");
 }
 
 ?>
@@ -15,12 +15,11 @@ if (isset($_SESSION['user_id']) == false) {
 
 <head>
     <meta charset="UTF-8">
-    <!-- <meta http-equiv="refresh" content="60; url=logout.php" /> -->
     <meta name="description" content="Ogani Template">
     <meta name="keywords" content="Ogani, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Ogani App| Template</title>
+    <title>OganiApp| Template</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
@@ -57,7 +56,6 @@ if (isset($_SESSION['user_id']) == false) {
         </div>
         <div class="humberger__menu__widget">
             <div class="header__top__right__language">
-                <!-- <img src="img/language.png" alt=""> -->
                 <img src="img/irish-flag.png" alt="">
                 <div>English</div>
                 <span class="arrow_carrot-down"></span>
@@ -75,16 +73,6 @@ if (isset($_SESSION['user_id']) == false) {
             <ul>
                 <li class="active"><a href="./index.php">Home</a></li>
                 <li><a href="./shop-grid.php">Shop</a></li>
-                <!-- <li><a href="#">Pages</a> -->
-                    <!-- <ul class="header__menu__dropdown">
-                        <li><a href="./shop-details.php">Shop Details</a></li>
-                        <li><a href="./shoping-cart.php">Shoping Cart</a></li>
-                        <li><a href="./checkout.php">Check Out</a></li>
-                        <li><a href="./blog-details.php">Blog Details</a></li>
-                    </ul>
-                </li>
-                <li><a href="./blog.php">Blog</a></li> -->
-                <!-- <li><a href="./contact.php">Contact</a></li> -->
             </ul>
         </nav>
         <div id="mobile-menu-wrap"></div>
@@ -136,7 +124,6 @@ if (isset($_SESSION['user_id']) == false) {
                             <div class="header__top__right__auth">
                                <?php echo "Welcome " . "&nbsp; <b>" . $_SESSION['firstname'] . "</b> &nbsp;"; ?>
                                 <i class="fa fa-user"></i><a href="logout.php"> | Logout</a>
-                                <!-- <a href="logout.php"><i class="fa fa-user"></i> | Logout</a> -->
                             </div>
                         </div>
                     </div>
@@ -155,16 +142,6 @@ if (isset($_SESSION['user_id']) == false) {
                         <ul>
                             <li class="active"><a href="./index.php">Home</a></li>
                             <li><a href="./shop-grid.php">Shop</a></li>
-                            <!-- <li><a href="#">Pages</a>
-                                <ul class="header__menu__dropdown">
-                                    <li><a href="./shop-details.php">Shop Details</a></li>
-                                    <li><a href="./shoping-cart.php">Shoping Cart</a></li>
-                                    <li><a href="./checkout.php">Check Out</a></li>
-                                    <li><a href="./blog-details.php">Blog Details</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="./blog.php">Blog</a></li> -->
-                            <!-- <li><a href="./contact.php">Contact</a></li> -->
                         </ul>
                     </nav>
                 </div>
@@ -212,16 +189,6 @@ if (isset($_SESSION['user_id']) == false) {
                 </div>
                 <div class="col-lg-9">
                     <div class="hero__search">
-                        <!-- <div class="hero__search__form">
-                            <form action="#">
-                                <div class="hero__search__categories">
-                                    All Categories
-                                    <span class="arrow_carrot-down"></span>
-                                </div>
-                                <input type="text" placeholder="What do yo u need?">
-                                <button type="submit" class="site-btn">SEARCH</button>
-                            </form>
-                        </div> -->
                         <div class="hero__search__phone">
                             <div class="hero__search__phone__icon">
                                 <i class="fa fa-phone"></i>

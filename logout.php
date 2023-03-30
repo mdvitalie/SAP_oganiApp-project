@@ -1,5 +1,5 @@
 <?php
-include("include/config.php");
+require "include/config.php";
 //session_start();
 session_destroy();
 echo "<p style='color:green; text-align:center;'>You have Logged out Successfully</p>";
